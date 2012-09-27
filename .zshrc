@@ -7,36 +7,29 @@
 #
 export LANG=en_US.UTF-8
 
-
 # auto change directory
 #
 setopt auto_cd
-
 
 # auto directory pushd that you can get dirs list by cd -[tab]
 #
 setopt auto_pushd
 
-
 # command correct edition before each completion attempt
 #
 setopt correct
-
 
 # compacked complete list display
 #
 setopt list_packed
 
-
 # no remove postfix slash of command line
 #
 setopt noautoremoveslash
 
-
 # no beep sound when complete list displayed
 #
 setopt nolistbeep
-
 
 ## Keybind configuration
 #
@@ -44,7 +37,6 @@ setopt nolistbeep
 # to end of it)
 #
 bindkey -e
-
 
 # historical backward/forward search with linehead string binded to ^P/^N
 #
@@ -56,7 +48,6 @@ bindkey "^n" history-beginning-search-forward-end
 bindkey "\\ep" history-beginning-search-backward-end
 bindkey "\\en" history-beginning-search-forward-end
 
-
 ## Command history configuration
 #
 HISTFILE=~/.zsh_history
@@ -65,12 +56,10 @@ SAVEHIST=1000000
 setopt hist_ignore_dups # ignore duplication command history list
 setopt share_history # share command history data
 
-
 ## Completion configuration
 #
 autoload -U compinit
 compinit
-
 
 ## Alias configuration
 #
@@ -89,6 +78,9 @@ esac
 
 alias xargs="gxargs"
 
+# source-highlight
+export LESS=mqeisz-2XR
+export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
 
 ## terminal configuration
 #
@@ -111,7 +103,6 @@ cons25)
   ;;
 esac
 
-
 # set terminal title including current directory
 #
 case "${TERM}" in
@@ -129,16 +120,25 @@ kterm*|xterm*)
   ;;
 esac
 
-
 ## load user .zshrc configuration file
 #
 [ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
 
-
 ## git-completion
 #
-source ~/git-completion.sh
+source /usr/local/etc/bash_completion.d/git-completion.bash
 
+## perlbrew
+#
+source ~/.perlbrew/etc/bashrc
+
+## perlbrew-completion
+#
+source ~/.perlbrew/etc/perlbrew-completion.bash
+
+## rbenv
+#
+eval "$(rbenv init -)"
 
 ## VCS settings
 #
@@ -148,7 +148,6 @@ source ~/git-completion.sh
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' formats '(%s)-[%b]'
 zstyle ':vcs_info:*' actionformats '(%s)-[%b|%a]'
-
 
 ## Default shell configuration
 #
