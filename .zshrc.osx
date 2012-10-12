@@ -2,4 +2,8 @@
 # See `/etc/paths`
 source /etc/profile
 
+# rbenv
+eval "$(rbenv init -)"
+
+# alias
 alias xargs="gxargs"

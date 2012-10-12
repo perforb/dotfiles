@@ -21,7 +21,7 @@ setopt noautoremoveslash
 # no beep sound when complete list displayed
 setopt nolistbeep
 
-# emacs like keybind (e.x. Ctrl-a goes to head of a line and Ctrl-e goes 
+# emacs like keybind (e.x. Ctrl-a goes to head of a line and Ctrl-e goes
 # to end of it)
 bindkey -e
 
@@ -109,7 +109,7 @@ case ${UID} in
         PROMPT2="%{${fg[red]}%}%_> %{${reset_color}%}"
         SPROMPT="%{${fg[cyan]}%}correct: %R -> %r [n,y,a,e]? %{${reset_color}%}"
         RPROMPT="%{${fg[yellow]}%}[%~]%{${reset_color}%}"
-        [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] && 
+        [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
         PROMPT="%{${fg[green]}%}${HOST%%.*} ${PROMPT}"
         ;;
     *)
@@ -117,7 +117,7 @@ case ${UID} in
         PROMPT2="%{${fg[white]}%}%_> %{${reset_color}%}"
         SPROMPT="%{${fg[cyan]}%}correct: %R -> %r [n,y,a,e]? %{${reset_color}%}"
         RPROMPT="%1(v|%F{green}%1v%f|)" # git 管理下のディレクトリにいる場合にブランチを表示
-        [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] && 
+        [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
         PROMPT="%{${fg[green]}%}${HOST%%.*} ${PROMPT}"
         ;;
 esac
@@ -133,9 +133,6 @@ esac
 
 # pythonbrew
 [ -f ~/.pythonbrew/etc/bashrc ] && source ~/.pythonbrew/etc/bashrc
-
-# rbenv
-eval "$(rbenv init -)"
 
 # alias configuration
 # expand aliases before completing
