@@ -1,0 +1,10 @@
+[user]
+	name = perforb
+	email = dev.perfumed.garden@gmail.com
+[color]
+	ui = auto
+[core]
+	editor = emacsclient
+	excludesfile = /Users/perforb/.gitignore
+[alias]
+	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
