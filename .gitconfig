@@ -5,6 +5,6 @@
 	ui = auto
 [core]
 	editor = emacsclient
-	excludesfile = /Users/perforb/.gitignore
+	excludesfile = ~/.gitignore
 [alias]
 	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
