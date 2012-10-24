@@ -49,10 +49,6 @@ setopt share_history
 autoload -U compinit
 compinit
 
-# source-highlight
-export LESS=mqeisz-2XR
-export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
-
 # terminal configuration
 unset LSCOLORS
 case "${TERM}" in
