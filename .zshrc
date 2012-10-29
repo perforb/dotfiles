@@ -118,18 +118,6 @@ case ${UID} in
         ;;
 esac
 
-# git-completion
-[ -f ~/dotfiles/lib/git-completion.sh ] && source ~/dotfiles/lib/git-completion.sh
-
-# perlbrew
-[ -f ~/.perlbrew/etc/bashrc ] && source ~/.perlbrew/etc/bashrc
-
-# perlbrew-completion
-[ -f ~/.perlbrew/etc/perlbrew-completion.bash ] && source ~/.perlbrew/etc/perlbrew-completion.bash
-
-# pythonbrew
-[ -f ~/.pythonbrew/etc/bashrc ] && source ~/.pythonbrew/etc/bashrc
-
 # alias configuration
 # expand aliases before completing
 # aliased ls needs if file/dir completions work
@@ -156,3 +144,15 @@ esac
 
 # load user .zshrc configuration file
 [ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
+
+# git-completion
+[ -f ~/dotfiles/lib/git-completion.sh ] && source ~/dotfiles/lib/git-completion.sh
+
+# perlbrew
+[ -f ~/.perlbrew/etc/bashrc ] && source ~/.perlbrew/etc/bashrc
+
+# perlbrew-completion
+[ -f ~/.perlbrew/etc/perlbrew-completion.bash ] && source ~/.perlbrew/etc/perlbrew-completion.bash
+
+# pythonbrew
+[ -f ~/.pythonbrew/etc/bashrc ] && source ~/.pythonbrew/etc/bashrc
