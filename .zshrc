@@ -21,8 +21,7 @@ setopt noautoremoveslash
 # no beep sound when complete list displayed
 setopt nolistbeep
 
-# emacs like keybind (e.x. Ctrl-a goes to head of a line and Ctrl-e goes
-# to end of it)
+# emacs like keybind (e.x. Ctrl-a goes to head of a line and Ctrl-e goes to end of it)
 bindkey -e
 
 # historical backward/forward search with linehead string binded to ^P/^N
@@ -42,12 +41,20 @@ SAVEHIST=1000000
 # ignore duplication command history list
 setopt hist_ignore_dups
 
-# share command history data
-setopt share_history
+# completion
+# https://github.com/zsh-users/zsh-completions
+fpath=(~/dotfiles/lib/zsh-completions/src $fpath)
 
-# completion configuration
 autoload -U compinit
 compinit
+
+[ -f ~/dotfiles/lib/git-completion.sh ] && source ~/dotfiles/lib/git-completion.sh
+[ -f ~/.perlbrew/etc/bashrc ] && source ~/.perlbrew/etc/bashrc
+[ -f ~/.perlbrew/etc/perlbrew-completion.bash ] && source ~/.perlbrew/etc/perlbrew-completion.bash
+[ -f ~/.pythonbrew/etc/bashrc ] && source ~/.pythonbrew/etc/bashrc
+
+# ignoring the case of the letters
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 # terminal configuration
 unset LSCOLORS
@@ -112,7 +119,7 @@ case ${UID} in
         PROMPT="%{${fg[white]}%}[%n@%m] %(!.#.$) %{${reset_color}%}"
         PROMPT2="%{${fg[white]}%}%_> %{${reset_color}%}"
         SPROMPT="%{${fg[cyan]}%}correct: %R -> %r [n,y,a,e]? %{${reset_color}%}"
-        RPROMPT="%1(v|%F{green}%1v%f|)" # git 管理下のディレクトリにいる場合にブランチを表示
+        RPROMPT="%1(v|%F{green}%1v%f|)"
         [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
         PROMPT="%{${fg[green]}%}${HOST%%.*} ${PROMPT}"
         ;;
@@ -141,18 +148,3 @@ case "${OSTYPE}" in
         [ -f ~/dotfiles/.zshrc.linux ] && source ~/dotfiles/.zshrc.linux
         ;;
 esac
-
-# load user .zshrc configuration file
-[ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
-
-# git-completion
-[ -f ~/dotfiles/lib/git-completion.sh ] && source ~/dotfiles/lib/git-completion.sh
-
-# perlbrew
-[ -f ~/.perlbrew/etc/bashrc ] && source ~/.perlbrew/etc/bashrc
-
-# perlbrew-completion
-[ -f ~/.perlbrew/etc/perlbrew-completion.bash ] && source ~/.perlbrew/etc/perlbrew-completion.bash
-
-# pythonbrew
-[ -f ~/.pythonbrew/etc/bashrc ] && source ~/.pythonbrew/etc/bashrc

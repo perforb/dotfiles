@@ -11,3 +11,6 @@ alias xargs="gxargs"
 # source-highlight
 export LESS=mqeisz-2XR
 export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
+
+# editor
+export EDITOR=emacsclient
