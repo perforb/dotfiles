@@ -14,3 +14,8 @@ export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
 
 # editor
 export EDITOR=emacsclient
+
+# z
+# brew install z
+# https://github.com/rupa/z
+. `brew --prefix`/etc/profile.d/z.sh

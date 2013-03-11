@@ -21,6 +21,11 @@ setopt noautoremoveslash
 # no beep sound when complete list displayed
 setopt nolistbeep
 
+# alias configuration
+# expand aliases before completing
+# aliased ls needs if file/dir completions work
+setopt complete_aliases
+
 # emacs like keybind (e.x. Ctrl-a goes to head of a line and Ctrl-e goes to end of it)
 bindkey -e
 
@@ -55,6 +60,25 @@ compinit
 
 # ignoring the case of the letters
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+# switch configuration
+case "${OSTYPE}" in
+    freebsd*|darwin*)
+        alias ls="ls -G -w"
+        ;;
+    linux*)
+        alias ls="ls --color"
+        ;;
+esac
+
+case "${OSTYPE}" in
+    darwin*)
+        [ -f ~/dotfiles/.zshrc.osx ] && source ~/dotfiles/.zshrc.osx
+        ;;
+    linux*)
+        [ -f ~/dotfiles/.zshrc.linux ] && source ~/dotfiles/.zshrc.linux
+        ;;
+esac
 
 # terminal configuration
 unset LSCOLORS
@@ -122,29 +146,5 @@ case ${UID} in
         RPROMPT="%1(v|%F{green}%1v%f|)"
         [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
         PROMPT="%{${fg[green]}%}${HOST%%.*} ${PROMPT}"
-        ;;
-esac
-
-# alias configuration
-# expand aliases before completing
-# aliased ls needs if file/dir completions work
-setopt complete_aliases
-
-case "${OSTYPE}" in
-    freebsd*|darwin*)
-        alias ls="ls -G -w"
-        ;;
-    linux*)
-        alias ls="ls --color"
-        ;;
-esac
-
-# switch configuration
-case "${OSTYPE}" in
-    darwin*)
-        [ -f ~/dotfiles/.zshrc.osx ] && source ~/dotfiles/.zshrc.osx
-        ;;
-    linux*)
-        [ -f ~/dotfiles/.zshrc.linux ] && source ~/dotfiles/.zshrc.linux
         ;;
 esac
