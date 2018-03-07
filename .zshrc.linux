@@ -1,8 +1,0 @@
-export M2_HOME=/usr/share/maven
-export M2=$M2_HOME/bin
-export PATH=$HOME/.rbenv/bin:$HOME/bin:/sbin:/usr/sbin:$M2:$PATH
-export EDITOR=vi
-
-# z
-# git submodule add git://github.com/rupa/z.git lib/z
-. ~/dotfiles/lib/z/z.sh

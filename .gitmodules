@@ -1,6 +1,0 @@
-[submodule "lib/zsh-completions"]
-	path = lib/zsh-completions
-	url = git://github.com/zsh-users/zsh-completions.git
-[submodule "lib/z"]
-	path = lib/z
-	url = git://github.com/rupa/z.git
