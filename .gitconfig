@@ -1,0 +1,12 @@
+[user]
+  name = perforb
+  email = dev.perfumed.garden@gmail.com
+[color]
+  ui = auto
+[core]
+  editor = vim
+  excludesfile = ~/.gitignore
+[alias]
+  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+  st = status
+  co = checkout
