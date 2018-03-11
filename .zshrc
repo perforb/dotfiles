@@ -52,7 +52,7 @@ PROMPT2="%{${fg[000]}%}%_> %{${reset_color}%}"
 SPROMPT="%{${fg[cyan]}%}correct: %R -> %r [n,y,a,e]? %{${reset_color}%}"
 RPROMPT="%1(v|%F{cyan}%1v%f|)"
 
-LS_COMMON="-hF --color=always --show-control-chars"
+LS_COMMON="-hFG"
 alias ls="command ls $LS_COMMON"
 alias ll="ls -l"
 alias la="ls -al"
@@ -73,27 +73,33 @@ zshaddhistory() {
   ]]
 }
 
-function percol_select_history() {
-  local tac
-  which gtac &> /dev/null && tac="gtac" || { which tac &> /dev/null && tac="tac" }
-  BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
-  CURSOR=$#BUFFER
-  zle -R -c
-}
+# Search shell history with peco: https://github.com/peco/peco
+# Adapted from: https://github.com/mooz/percol#zsh-history-search
+if which peco &> /dev/null; then
+  function peco_select_history() {
+    local tac
+    { which gtac &> /dev/null && tac="gtac" } || \
+      { which tac &> /dev/null && tac="tac" } || \
+      tac="tail -r"
+    BUFFER=$(fc -l -n 1 | eval $tac | \
+                peco --layout=top-down --query "$LBUFFER")
+    CURSOR=$#BUFFER # move cursor
+    zle -R -c       # refresh
+  }
 
-zle -N percol_select_history
-bindkey '^r' percol_select_history
-autoload -Uz is-at-least
+  zle -N peco_select_history
+  bindkey '^R' peco_select_history
+fi
 
-if is-at-least 4.3.11; then
+if which peco &> /dev/null; then
   autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
   add-zsh-hook chpwd chpwd_recent_dirs
   zstyle ':chpwd:*' recent-dirs-max 5000
   zstyle ':chpwd:*' recent-dirs-default yes
   zstyle ':completion:*' recent-dirs-insert both
 
-  function percol_cdr() {
-    local selected_dir=$(cdr -l | awk '{ print $2 }' | percol)
+  function peco_cdr() {
+    local selected_dir=$(cdr -l | awk '{ print $2 }' | peco)
     if [ -n "$selected_dir" ]; then
       BUFFER="cd ${selected_dir}"
       zle accept-line
@@ -101,6 +107,6 @@ if is-at-least 4.3.11; then
     zle clear-screen
   }
 
-  zle -N percol_cdr
-  bindkey '^@' percol_cdr
+  zle -N peco_cdr
+  bindkey '^@' peco_cdr
 fi
