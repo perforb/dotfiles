@@ -1,5 +1,8 @@
 scriptencoding utf-8
 
+"
+" dein settings
+
 if &compatible
   set nocompatible
 endif
@@ -12,9 +15,8 @@ call dein#add('nanotech/jellybeans.vim')
 
 call dein#end()
 
-
 "
-" Common Settings
+" common settings
 
 filetype plugin indent on
 syntax enable
