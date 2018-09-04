@@ -3,7 +3,7 @@ if [ -z "$SSH_AGENT_PID" ] ; then
   ssh-add
 fi
 
-GOPATH="$HOME/go"
-
-export GOPATH
+export GOPATH="$HOME/go"
 export PATH=/usr/local/mecab/bin:$PATH
+export PATH=$HOME/.nodebrew/current/bin:$PATH
+
