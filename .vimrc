@@ -11,7 +11,7 @@ set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 call dein#begin(expand('~/.vim/dein'))
 
 call dein#add('Shougo/dein.vim')
-call dein#add('nanotech/jellybeans.vim')
+call dein#add('arcticicestudio/nord-vim')
 
 call dein#end()
 
@@ -51,10 +51,10 @@ set autoindent
 set smartindent
 
 set noerrorbells
-set visualbell
+set belloff=all
 
 set t_Co=256
-colorscheme jellybeans
+colorscheme nord
 
 set cursorline
 hi CursorLineNr term=bold cterm=none ctermfg=226 ctermbg=none

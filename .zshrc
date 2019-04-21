@@ -107,5 +107,9 @@ if which peco &> /dev/null; then
   }
 
   zle -N peco_cdr
-  bindkey '^@' peco_cdr
+  bindkey '^N' peco_cdr
 fi
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/perforb/.sdkman"
+[[ -s "/Users/perforb/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/perforb/.sdkman/bin/sdkman-init.sh"
