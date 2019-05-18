@@ -6,6 +6,7 @@
 [core]
   editor = vim
   excludesfile = ~/.gitignore
+  fileMode = false
 [alias]
   hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
   st = status
