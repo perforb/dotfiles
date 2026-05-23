@@ -1,0 +1,10 @@
+[user]
+  name = perforb
+  email = dev.perfumed.garden@gmail.com
+[core]
+  editor = vim
+  excludesfile = ~/.gitignore_global
+[pull]
+  rebase = false
+[init]
+  defaultBranch = main
