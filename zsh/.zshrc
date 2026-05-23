@@ -44,6 +44,22 @@ export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 --icons {}'"
 bindkey -r '^[c'
 bindkey '^N' fzf-cd-widget
 
+# zoxide
+eval "$(zoxide init zsh --no-cmd)"
+
+# CTRL-N for interactive directory jump (zoxide + fzf)
+bindkey -r '^[c'
+function _zoxide_fzf() {
+  local dir
+  dir=$(zoxide query --list | fzf --height 40% --layout=reverse --border --preview 'eza --tree --level=2 --icons {}')
+  if [ -n "$dir" ]; then
+    cd "$dir"
+    zle reset-prompt
+  fi
+}
+zle -N _zoxide_fzf
+bindkey '^N' _zoxide_fzf
+
 # -----------------------------------------------
 # mise (Python / Node / Terraform)
 # -----------------------------------------------
@@ -86,3 +102,4 @@ bindkey '^]' autosuggest-accept
 # Prompt (starship)
 # -----------------------------------------------
 eval "$(starship init zsh)"
+
