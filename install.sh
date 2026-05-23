@@ -12,4 +12,6 @@ ln -sf "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship/starship.t
 
 ln -sf "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
 
+ln -sf "$DOTFILES_DIR/vim/.vimrc" "$HOME/.vimrc"
+
 echo "Done!"
