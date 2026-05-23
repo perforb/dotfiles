@@ -98,8 +98,35 @@ source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
 bindkey '^]' autosuggest-accept
 
+_tab_or_autosuggest() {
+  if [[ -n "$POSTDISPLAY" ]]; then
+    zle autosuggest-accept
+  else
+    zle expand-or-complete
+  fi
+}
+zle -N _tab_or_autosuggest
+bindkey '^I' _tab_or_autosuggest
+
 # -----------------------------------------------
 # Prompt (starship)
 # -----------------------------------------------
 eval "$(starship init zsh)"
+
+function starship-theme() {
+  local presets_dir=~/projects/public/dotfiles/starship/presets
+  if [[ -z "$1" ]]; then
+    echo "--- local ---"
+    ls "$presets_dir" | sed 's/\.toml//'
+    echo "--- builtin ---"
+    starship preset --list
+    return
+  fi
+  local local_preset="$presets_dir/$1.toml"
+  if [[ -f "$local_preset" ]]; then
+    cp "$local_preset" ~/projects/public/dotfiles/starship/starship.toml && exec zsh
+  else
+    starship preset "$1" > ~/projects/public/dotfiles/starship/starship.toml && exec zsh
+  fi
+}
 
