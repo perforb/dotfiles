@@ -7,8 +7,8 @@ echo "Creating symlinks..."
 
 ln -sf "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
 
-mkdir -p "$HOME/.config/starship"
-ln -sf "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship/starship.toml"
+mkdir -p "$HOME/.config"
+ln -sf "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship.toml"
 
 ln -sf "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
 
