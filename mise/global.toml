@@ -1,0 +1,5 @@
+[tools]
+aws-cli = { version = "latest", symlink_bins = "true" }
+node = "lts"
+python = "latest"
+terraform = "latest"
