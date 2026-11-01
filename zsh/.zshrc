@@ -22,9 +22,9 @@ setopt SHARE_HISTORY
 # -----------------------------------------------
 # Aliases
 # -----------------------------------------------
-alias ls='eza --icons'
-alias ll='eza -lah --icons --git'
-alias lt='eza --tree --level=2 --icons'
+alias ls='eza'
+alias ll='eza -lah --git'
+alias lt='eza --tree --level=2'
 alias cat='bat --paging=never'
 
 # -----------------------------------------------
@@ -32,17 +32,11 @@ alias cat='bat --paging=never'
 # -----------------------------------------------
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
-export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window=down:3:hidden:wrap --bind '?:toggle-preview'"
+# Full screen, no borders; the prompt shows the current directory and git branch
+export FZF_DEFAULT_OPTS="--layout=reverse --no-separator --highlight-line --color=bg+:#a0566f,fg+:255 --bind 'start:transform-prompt:echo \"\$(pwd | sed \"s|^\$HOME|~|\") \$(git branch --show-current 2>/dev/null) > \"'"
 
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
-export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 --icons {}'"
-
-# CTRL-N for directory navigation
-bindkey -r '^[c'
-bindkey '^N' fzf-cd-widget
 
 # zoxide
 eval "$(zoxide init zsh --no-cmd)"
@@ -51,7 +45,7 @@ eval "$(zoxide init zsh --no-cmd)"
 bindkey -r '^[c'
 function _zoxide_fzf() {
   local dir
-  dir=$(zoxide query --list | fzf --height 40% --layout=reverse --border --preview 'eza --tree --level=2 --icons {}')
+  dir=$(zoxide query --list | fzf --height=~100% --preview 'echo; eza --tree --level=2 {}' --preview-window=down:10:noborder)
   if [ -n "$dir" ]; then
     cd "$dir"
     zle reset-prompt
@@ -61,7 +55,7 @@ zle -N _zoxide_fzf
 bindkey '^N' _zoxide_fzf
 
 # -----------------------------------------------
-# mise (Python / Node / Terraform)
+# mise (Python / Node / Terraform / AWS CLI)
 # -----------------------------------------------
 eval "$(mise activate zsh)"
 
@@ -83,6 +77,7 @@ add-zsh-hook chpwd _uv_auto_activate
 # AWS CLI completion
 # -----------------------------------------------
 if type aws_completer > /dev/null 2>&1; then
+  autoload -Uz bashcompinit && bashcompinit
   complete -C aws_completer aws
 fi
 
@@ -112,21 +107,4 @@ bindkey '^I' _tab_or_autosuggest
 # Prompt (starship)
 # -----------------------------------------------
 eval "$(starship init zsh)"
-
-function starship-theme() {
-  local presets_dir=~/projects/public/dotfiles/starship/presets
-  if [[ -z "$1" ]]; then
-    echo "--- local ---"
-    ls "$presets_dir" | sed 's/\.toml//'
-    echo "--- builtin ---"
-    starship preset --list
-    return
-  fi
-  local local_preset="$presets_dir/$1.toml"
-  if [[ -f "$local_preset" ]]; then
-    cp "$local_preset" ~/projects/public/dotfiles/starship/starship.toml && exec zsh
-  else
-    starship preset "$1" > ~/projects/public/dotfiles/starship/starship.toml && exec zsh
-  fi
-}
 

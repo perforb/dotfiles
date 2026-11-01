@@ -16,27 +16,22 @@ My dotfiles for macOS (Apple Silicon).
 
 ### 2. Install dependencies
 
-    brew install mise fzf zsh-syntax-highlighting zsh-autosuggestions starship fd bat eza gh
+    brew install mise fzf zoxide zsh-syntax-highlighting zsh-autosuggestions starship fd bat eza gh
     $(brew --prefix)/opt/fzf/install
     curl -LsSf https://astral.sh/uv/install.sh | sh
 
-### 3. Install Nerd Font
-
-    brew install --cask font-hack-nerd-font
-
-iTerm2 → Settings → Profiles → Text → Font → `Hack Nerd Font Mono`
-
-### 4. Clone and run installer
+### 3. Clone and run installer
 
     git clone https://github.com/perforb/dotfiles.git ~/projects/public/dotfiles
     cd ~/projects/public/dotfiles
     ./install.sh
 
-### 5. Install runtimes via mise
+### 4. Install runtimes and CLIs via mise
 
-    mise use --global python@latest
-    mise use --global node@lts
-    mise use --global terraform@latest
+    mise install
+
+Versions are defined in `mise/global.toml` (Node, Python, Terraform, AWS CLI), linked to `~/.config/mise/config.toml`.
+It is not named `mise/config.toml` because mise would treat that path as a project config inside this repo.
 
 ## Structure
 
@@ -46,8 +41,12 @@ iTerm2 → Settings → Profiles → Text → Font → `Hack Nerd Font Mono`
     │   └── .zshrc
     ├── starship/
     │   └── starship.toml
-    └── git/
-        └── .gitconfig
+    ├── mise/
+    │   └── global.toml
+    ├── git/
+    │   └── .gitconfig
+    └── vim/
+        └── .vimrc
 
 ## Key bindings
 
