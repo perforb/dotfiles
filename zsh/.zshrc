@@ -35,7 +35,8 @@ alias cat='bat --paging=never'
 # -----------------------------------------------
 # fzf
 # -----------------------------------------------
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# Key bindings (CTRL-R / CTRL-T / ALT-C) and completion, built into fzf 0.48+
+source <(fzf --zsh)
 
 # Full screen, no borders; the prompt shows the current directory and git branch
 export FZF_DEFAULT_OPTS="--layout=reverse --no-separator --highlight-line --color=bg+:#a0566f,fg+:255 --bind 'start:transform-prompt:echo \"\$(pwd | sed \"s|^\$HOME|~|\") \$(git branch --show-current 2>/dev/null) > \"'"
