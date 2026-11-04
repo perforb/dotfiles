@@ -1,6 +1,9 @@
 # Every tool below is optional: a section is skipped when its command is missing,
 # so a fresh machine opens a working shell before `mise install` has run.
 
+# Keep PATH entries unique (nested shells and local files prepend again)
+typeset -U path PATH
+
 # ~/.local/bin holds mise (https://mise.run) and uv-installed tools
 export PATH="$HOME/.local/bin:$PATH"
 
