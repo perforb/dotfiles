@@ -1,6 +1,6 @@
 [user]
-  name = perforb
-  email = dev.perfumed.garden@gmail.com
+  # Identity lives in ~/.gitconfig.local; refuse to commit without one
+  useConfigOnly = true
 [core]
   editor = vim
 [pull]
@@ -12,3 +12,7 @@
   st = status
   br = branch
   co = checkout
+
+# Machine-local settings such as [user] (not tracked); included last so they win
+[include]
+  path = ~/.gitconfig.local

@@ -83,6 +83,11 @@ if type aws_completer > /dev/null 2>&1; then
 fi
 
 # -----------------------------------------------
+# Machine-local settings (not tracked)
+# -----------------------------------------------
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
+# -----------------------------------------------
 # Syntax highlighting (must be sourced last)
 # -----------------------------------------------
 # Plugins are cloned by install.sh
