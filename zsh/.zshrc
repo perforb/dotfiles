@@ -1,4 +1,9 @@
 # -----------------------------------------------
+# mise (CLI tools and runtimes; activate first so later sections can use them)
+# -----------------------------------------------
+eval "$(mise activate zsh)"
+
+# -----------------------------------------------
 # Completion
 # -----------------------------------------------
 autoload -Uz compinit && compinit
@@ -53,11 +58,6 @@ function _zoxide_fzf() {
 }
 zle -N _zoxide_fzf
 bindkey '^N' _zoxide_fzf
-
-# -----------------------------------------------
-# mise (Python / Node / Terraform / AWS CLI)
-# -----------------------------------------------
-eval "$(mise activate zsh)"
 
 # -----------------------------------------------
 # uv
