@@ -37,4 +37,18 @@ for repo in zsh-users/zsh-syntax-highlighting zsh-users/zsh-autosuggestions; do
   fi
 done
 
+echo "Installing tools with mise..."
+
+MISE="$(command -v mise || true)"
+[ -z "$MISE" ] && [ -x "$HOME/.local/bin/mise" ] && MISE="$HOME/.local/bin/mise"
+if [ -n "$MISE" ]; then
+  "$MISE" install
+else
+  echo "  mise not found; install it (https://mise.run) and run 'mise install'"
+fi
+
+if [ ! -f "$HOME/.gitconfig.local" ]; then
+  echo "Note: create ~/.gitconfig.local with a [user] section; git refuses to commit without it"
+fi
+
 echo "Done!"
