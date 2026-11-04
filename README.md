@@ -16,9 +16,10 @@ My dotfiles for macOS (Apple Silicon).
 
 ### 2. Install dependencies
 
-    brew install mise fzf zoxide zsh-syntax-highlighting zsh-autosuggestions starship fd bat eza gh
-    $(brew --prefix)/opt/fzf/install
+    brew install mise gh
     curl -LsSf https://astral.sh/uv/install.sh | sh
+
+Shell tools (fzf, zoxide, starship, fd, bat, eza) are installed by mise in step 4.
 
 ### 3. Clone and run installer
 
@@ -30,7 +31,7 @@ My dotfiles for macOS (Apple Silicon).
 
     mise install
 
-Versions are defined in `mise/global.toml` (Node, Python, Terraform, AWS CLI), linked to `~/.config/mise/config.toml`.
+Versions are defined in `mise/global.toml` (Node, Python, Terraform, AWS CLI and the shell tools), linked to `~/.config/mise/config.toml`.
 It is not named `mise/config.toml` because mise would treat that path as a project config inside this repo.
 
 ## Structure
