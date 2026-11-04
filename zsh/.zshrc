@@ -1,7 +1,13 @@
+# Every tool below is optional: a section is skipped when its command is missing,
+# so a fresh machine opens a working shell before `mise install` has run.
+
+# ~/.local/bin holds mise (https://mise.run) and uv-installed tools
+export PATH="$HOME/.local/bin:$PATH"
+
 # -----------------------------------------------
 # mise (CLI tools and runtimes; activate first so later sections can use them)
 # -----------------------------------------------
-eval "$(mise activate zsh)"
+command -v mise > /dev/null && eval "$(mise activate zsh)"
 
 # -----------------------------------------------
 # Completion
@@ -27,44 +33,51 @@ setopt SHARE_HISTORY
 # -----------------------------------------------
 # Aliases
 # -----------------------------------------------
-alias ls='eza'
-alias ll='eza -lah --git'
-alias lt='eza --tree --level=2'
-alias cat='bat --paging=never'
+if command -v eza > /dev/null; then
+  alias ls='eza'
+  alias ll='eza -lah --git'
+  alias lt='eza --tree --level=2'
+fi
+command -v bat > /dev/null && alias cat='bat --paging=never'
 
 # -----------------------------------------------
 # fzf
 # -----------------------------------------------
-# Key bindings (CTRL-R / CTRL-T / ALT-C) and completion, built into fzf 0.48+
-source <(fzf --zsh)
+if command -v fzf > /dev/null; then
+  # Key bindings (CTRL-R / CTRL-T / ALT-C) and completion, built into fzf 0.48+
+  source <(fzf --zsh)
 
-# Full screen, no borders; the prompt shows the current directory and git branch
-export FZF_DEFAULT_OPTS="--layout=reverse --no-separator --highlight-line --color=bg+:#a0566f,fg+:255 --bind 'start:transform-prompt:echo \"\$(pwd | sed \"s|^\$HOME|~|\") \$(git branch --show-current 2>/dev/null) > \"'"
+  # Full screen, no borders; the prompt shows the current directory and git branch
+  export FZF_DEFAULT_OPTS="--layout=reverse --no-separator --highlight-line --color=bg+:#a0566f,fg+:255 --bind 'start:transform-prompt:echo \"\$(pwd | sed \"s|^\$HOME|~|\") \$(git branch --show-current 2>/dev/null) > \"'"
 
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+  if command -v fd > /dev/null; then
+    export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+  fi
+fi
 
 # zoxide
-eval "$(zoxide init zsh --no-cmd)"
+command -v zoxide > /dev/null && eval "$(zoxide init zsh --no-cmd)"
 
 # CTRL-N for interactive directory jump (zoxide + fzf)
-bindkey -r '^[c'
-function _zoxide_fzf() {
-  local dir
-  dir=$(zoxide query --list | fzf --height=~100% --preview 'echo; eza --tree --level=2 {}' --preview-window=down:10:noborder)
-  if [ -n "$dir" ]; then
-    cd "$dir"
-    zle reset-prompt
-  fi
-}
-zle -N _zoxide_fzf
-bindkey '^N' _zoxide_fzf
+if command -v zoxide > /dev/null && command -v fzf > /dev/null; then
+  bindkey -r '^[c'
+  function _zoxide_fzf() {
+    local dir preview='ls -1 {}'
+    command -v eza > /dev/null && preview='eza --tree --level=2 {}'
+    dir=$(zoxide query --list | fzf --height=~100% --preview "echo; $preview" --preview-window=down:10:noborder)
+    if [ -n "$dir" ]; then
+      cd "$dir"
+      zle reset-prompt
+    fi
+  }
+  zle -N _zoxide_fzf
+  bindkey '^N' _zoxide_fzf
+fi
 
 # -----------------------------------------------
 # uv
 # -----------------------------------------------
-export PATH="$HOME/.local/bin:$PATH"
-
 # Auto-activate virtual environment on directory change
 autoload -Uz add-zsh-hook
 _uv_auto_activate() {
@@ -116,5 +129,5 @@ bindkey '^I' _tab_or_autosuggest
 # -----------------------------------------------
 # Prompt (starship)
 # -----------------------------------------------
-eval "$(starship init zsh)"
+command -v starship > /dev/null && eval "$(starship init zsh)"
 
