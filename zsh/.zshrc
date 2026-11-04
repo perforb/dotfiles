@@ -85,12 +85,16 @@ fi
 # -----------------------------------------------
 # Syntax highlighting (must be sourced last)
 # -----------------------------------------------
-source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Plugins are cloned by install.sh
+ZSH_PLUGINS_DIR=~/.local/share/zsh/plugins
+[ -f $ZSH_PLUGINS_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && \
+  source $ZSH_PLUGINS_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # -----------------------------------------------
 # Inline suggestions
 # -----------------------------------------------
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+[ -f $ZSH_PLUGINS_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh ] && \
+  source $ZSH_PLUGINS_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
 bindkey '^]' autosuggest-accept
 

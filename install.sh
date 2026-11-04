@@ -17,4 +17,17 @@ ln -sf "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
 
 ln -sf "$DOTFILES_DIR/vim/.vimrc" "$HOME/.vimrc"
 
+echo "Fetching zsh plugins..."
+
+ZSH_PLUGINS_DIR="$HOME/.local/share/zsh/plugins"
+mkdir -p "$ZSH_PLUGINS_DIR"
+for repo in zsh-users/zsh-syntax-highlighting zsh-users/zsh-autosuggestions; do
+  dest="$ZSH_PLUGINS_DIR/${repo#*/}"
+  if [ -d "$dest/.git" ]; then
+    git -C "$dest" pull --ff-only --quiet
+  else
+    git clone --depth 1 --quiet "https://github.com/$repo.git" "$dest"
+  fi
+done
+
 echo "Done!"

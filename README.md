@@ -20,6 +20,7 @@ My dotfiles for macOS (Apple Silicon).
     curl -LsSf https://astral.sh/uv/install.sh | sh
 
 Shell tools (fzf, zoxide, starship, fd, bat, eza) are installed by mise in step 4.
+zsh plugins (zsh-syntax-highlighting, zsh-autosuggestions) are cloned into `~/.local/share/zsh/plugins` by `install.sh`.
 
 ### 3. Clone and run installer
 
