@@ -3,3 +3,13 @@ aws-cli = { version = "latest", symlink_bins = "true" }
 node = "lts"
 python = "latest"
 terraform = "latest"
+uv = "latest"
+github-cli = "latest"
+
+# Shell tools
+bat = "latest"
+eza = "latest"
+fd = "latest"
+fzf = "latest"
+starship = "latest"
+zoxide = "latest"

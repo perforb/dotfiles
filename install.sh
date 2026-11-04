@@ -3,18 +3,52 @@ set -e
 
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
+BACKUP_SUFFIX=".bak.$(date +%Y%m%d%H%M%S)"
+
+# Link $1 (in this repo) to $2, moving an existing real file aside first
+link() {
+  local src="$1" dest="$2"
+  mkdir -p "$(dirname "$dest")"
+  if [ -e "$dest" ] && [ ! -L "$dest" ]; then
+    mv "$dest" "$dest$BACKUP_SUFFIX"
+    echo "  backed up $dest -> $dest$BACKUP_SUFFIX"
+  fi
+  ln -sfn "$src" "$dest"
+}
+
 echo "Creating symlinks..."
 
-ln -sf "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
+link "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
+link "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship.toml"
+link "$DOTFILES_DIR/mise/global.toml" "$HOME/.config/mise/config.toml"
+link "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
+link "$DOTFILES_DIR/vim/.vimrc" "$HOME/.vimrc"
 
-mkdir -p "$HOME/.config"
-ln -sf "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship.toml"
+echo "Fetching zsh plugins..."
 
-mkdir -p "$HOME/.config/mise"
-ln -sf "$DOTFILES_DIR/mise/global.toml" "$HOME/.config/mise/config.toml"
+ZSH_PLUGINS_DIR="$HOME/.local/share/zsh/plugins"
+mkdir -p "$ZSH_PLUGINS_DIR"
+for repo in zsh-users/zsh-syntax-highlighting zsh-users/zsh-autosuggestions; do
+  dest="$ZSH_PLUGINS_DIR/${repo#*/}"
+  if [ -d "$dest/.git" ]; then
+    git -C "$dest" pull --ff-only --quiet
+  else
+    git clone --depth 1 --quiet "https://github.com/$repo.git" "$dest"
+  fi
+done
 
-ln -sf "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
+echo "Installing tools with mise..."
 
-ln -sf "$DOTFILES_DIR/vim/.vimrc" "$HOME/.vimrc"
+MISE="$(command -v mise || true)"
+[ -z "$MISE" ] && [ -x "$HOME/.local/bin/mise" ] && MISE="$HOME/.local/bin/mise"
+if [ -n "$MISE" ]; then
+  "$MISE" install
+else
+  echo "  mise not found; install it (https://mise.run) and run 'mise install'"
+fi
+
+if [ ! -f "$HOME/.gitconfig.local" ]; then
+  echo "Note: create ~/.gitconfig.local with a [user] section; git refuses to commit without it"
+fi
 
 echo "Done!"

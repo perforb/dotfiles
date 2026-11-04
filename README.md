@@ -1,37 +1,65 @@
 # dotfiles
 
-My dotfiles for macOS (Apple Silicon).
+My dotfiles for zsh on macOS and Linux.
 
 ## Requirements
 
-- macOS (Apple Silicon)
-- [Homebrew](https://brew.sh)
+- zsh, git and curl
+- [mise](https://mise.jdx.dev) — installs every other tool
 
 ## Setup
 
-### 1. Install Homebrew
+### 1. Install mise
 
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    eval "$(/opt/homebrew/bin/brew shellenv)"
+    curl https://mise.run | sh
 
-### 2. Install dependencies
+This puts `mise` in `~/.local/bin` on both macOS and Linux (`brew install mise` also works on macOS).
 
-    brew install mise fzf zoxide zsh-syntax-highlighting zsh-autosuggestions starship fd bat eza gh
-    $(brew --prefix)/opt/fzf/install
-    curl -LsSf https://astral.sh/uv/install.sh | sh
-
-### 3. Clone and run installer
+### 2. Clone and run installer
 
     git clone https://github.com/perforb/dotfiles.git ~/projects/public/dotfiles
     cd ~/projects/public/dotfiles
     ./install.sh
 
-### 4. Install runtimes and CLIs via mise
+`install.sh` is safe to re-run. It:
 
-    mise install
+- links the config files into `$HOME`, moving existing files aside as `<file>.bak.<timestamp>`
+- clones zsh-syntax-highlighting and zsh-autosuggestions into `~/.local/share/zsh/plugins`
+- runs `mise install` for the tools in `mise/global.toml`
+  (fzf, zoxide, starship, fd, bat, eza, uv, gh, Node, Python, Terraform, AWS CLI)
 
-Versions are defined in `mise/global.toml` (Node, Python, Terraform, AWS CLI), linked to `~/.config/mise/config.toml`.
+`mise/global.toml` is linked to `~/.config/mise/config.toml`.
 It is not named `mise/config.toml` because mise would treat that path as a project config inside this repo.
+
+### 3. Use zsh
+
+On Linux, make zsh the login shell if it is not already:
+
+    chsh -s "$(command -v zsh)"
+
+Then open a new terminal. Sections of `.zshrc` whose tools are missing are skipped, so the shell starts even before `mise install` finishes.
+
+### 4. Add machine-local settings
+
+Identity and machine-specific settings are not tracked. Each file is loaded when present:
+
+| File | Purpose |
+|------|---------|
+| `~/.gitconfig.local` | `[user]` name and email (required: commits are refused without it) |
+| `~/.zshrc.local` | PATH, tokens and other per-machine shell settings |
+| `~/.vimrc.local` | Extra vim settings |
+| `~/.config/mise/config.local.toml` | Extra tools or version overrides (wins over `config.toml`) |
+
+Minimal `~/.gitconfig.local`:
+
+    [user]
+      name = Your Name
+      email = 12345678+username@users.noreply.github.com
+
+To commit with a different identity under a directory, add an `includeIf` there:
+
+    [includeIf "gitdir:~/projects/public/"]
+      path = ~/.gitconfig.personal
 
 ## Structure
 
@@ -54,5 +82,5 @@ It is not named `mise/config.toml` because mise would treat that path as a proje
 |-----|--------|
 | `CTRL-R` | Search command history |
 | `CTRL-T` | Search files |
-| `CTRL-N` | Navigate directories |
-| `CTRL-]` | Accept autosuggestion |
+| `CTRL-N` | Jump to a recent directory (zoxide) |
+| `TAB` / `CTRL-]` | Accept autosuggestion (TAB completes when there is none) |
