@@ -53,6 +53,9 @@ if command -v fzf > /dev/null; then
   # Full screen, no borders; the prompt shows the current directory and git branch
   export FZF_DEFAULT_OPTS="--layout=reverse --no-separator --highlight-line --color=bg+:#a0566f,fg+:255 --bind 'start:transform-prompt:echo \"\$(pwd | sed \"s|^\$HOME|~|\") \$(git branch --show-current 2>/dev/null) > \"'"
 
+  # CTRL-R: hide history event numbers (the widget still uses them internally)
+  export FZF_CTRL_R_OPTS="--with-nth 2.."
+
   if command -v fd > /dev/null; then
     export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
